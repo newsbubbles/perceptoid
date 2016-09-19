@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DD - Your Augmented Reality Pet</title>
+  <link rel="stylesheet" href="assets/demo.css">
+
+  <script src="../js/tracking-min.js"></script>
+  <script src="../js/kdTree.js"></script>
+  <script src="../js/LODTree.js"></script>
+  <script src="../js/linknodes.js"></script>
+  <script src="../js/perceptoid.js"></script>
+  <!--<script src="../../dat-gui/build/dat.gui.min.js"></script>-->
+  <!-- Trig -->
+  <script src="../js/geom.js"></script>
+  <script src="../js/delaunay.js"></script>
+  <script src="../js/graham_scan.min.js"></script>
+  <script src="../js/graham_scan.min.js"></script>
+  <script src="../js/rhill-voronoi-core.js"></script>
+  <!--<script src="../assets/stats.min.js"></script>-->
+  <script src="../assets/color_camera_gui.js"></script>
+
+  <style>
+  body {
+    background-color: black;
+    color: #fff;
+  }
+
+  video, canvas {
+    position: absolute;
+  }
+  </style>
+</head>
+<body>
+  <div class="demo-title">
+    <p><b>DD</b> - Your Augmented Reality pet blob</p>
+  </div>
+
+  <div class="demo-frame">
+    <div class="demo-container">
+      <div id="rectangle"></div>
+      <video id="video" style="opacity: 1;" width="400" height="300" preload autoplay  loop controls>
+        <!--<source src="assets/southpark0706.mp4" type="video/mp4">-->
+        <!--<source src="assets/minions.ogv" type="video/ogg">-->
+	    <!--<source src="assets/poi.webm" type="video/webm">-->
+      </video>
+      <canvas id="canvas" width="400" height="300"></canvas>
+    </div>
+  </div>
+  <script>
+	//Perceptoid Matrix - perceptoid.js
+	var videoWidth = 400;
+	var videoHeight = 300;
+	var useControlPoints = true;
+	var space = {x: videoWidth, y: videoHeight};
+	var perceptoids = [
+		Perceptoid({
+			space: space, 
+			x: 100, 
+			y: 100, 
+			r: 60, 
+			ir: 55,
+			n: 60, 
+			ease: 0.001,
+			color: false,
+			cr: 80,
+			colorEase: 0.0002,
+			drawRadius: false,
+			draw: {
+				radius: false
+			},
+			drawVelocity: true,
+			scan: true,
+			scanRenderStyle: 'fill',
+			scanOpacity: 1,
+			mode: {
+				points: {
+					movement: 0,
+					orientation: 0,
+					alignment: 0
+				},
+				peers: {
+					movement: 0,
+					orientation: 1,
+					alignment: 1
+				}
+			}
+		})/*,
+		Perceptoid({
+			space: space, 
+			x: 300, 
+			y: 100, 
+			r: 60, 
+			ir: 55,
+			n: 30, 
+			ease: 0.004, 
+			drawRadius: false,
+			drawVelocity: true,
+			scan: true,
+			scanType: 'graham',
+			scanRenderStyle: 'fill',
+			scanOpacity: 0.8,
+			mode: {
+				points: {
+					movement: 0,
+					orientation: 0,
+					alignment: 0
+				},
+				peers: {
+					movement: 0,
+					orientation: 1,
+					alignment: 1
+				}
+			}
+		})*/
+	];
+	var pet = {
+		/*NON-Perceptoid data*/
+		needs: {
+			food: 255,
+			love: 255,
+			attention: 255,
+			fun: 255
+		},
+		feels: {
+			curious: 0,
+			sick: 0,
+			angry: 0,
+			happy: 0,
+			anxious: 0,
+			shy: 0 			/* when shy is 255, pet is almost transparent */
+		},
+		age: 0,
+		growth: {
+			
+		},
+		perceptoid: perceptoids[0]
+	};
+  	//useCamera = false;
+  </script>
+  <script src="../js/lightning.js"></script>
+  <script>
+  	trackStats = false;
+  	setPointRange(500,700);
+  	showPoints = false;
+ 	setVideoOpacity(1);
+  </script>
+  <script>
+	//Canvas events
+	//displayCanvas.addEventListener("click", restart, false);
+	var isPressed = false;
+	var pressButton = 0;
+	var mouseEvent;
+	/* TODO - Add menus and mouse controls
+	*/
+	canvas.addEventListener("mouseclick", function(evt){
+		console.log(pressButton);
+		console.log(evt);
+		switch(pressButton){
+		case 1:		//selecting a perceptoid (show it's properties in some form)
+			break;
+		case 2:		//pulling up some other options
+			break;
+		case 3: 	//performing some third options
+			break;	
+		}
+		if (evt.which === 3 || evt.button === 2){ evt.preventDefault();}
+	}, false);
+	canvas.addEventListener("mousedown", function(evt){
+		isPressed = true;
+		pressButton = evt.button;
+		mouseEvent = evt;
+		console.log(pressButton);
+		console.log(evt);
+		switch(pressButton){
+		case 1:		//selecting and dragging outer perceptoid radius
+			break;
+		case 2:		//selecting and dragging inner perceptoid radius
+			break;
+		case 3: 	//selecting and moving a perceptoid
+			break;	
+		}
+		if (evt.which === 3 || evt.button === 2){ evt.preventDefault();}
+	}, false);
+	canvas.addEventListener("mouseup", function(evt){
+		isPressed = false;
+		//call on release event
+		switch(pressButton){
+		case 1:		//selecting and dragging perceptoid radius
+			break;
+		case 2:		//selecting and dragging inner perceptoid radius
+			break;
+		case 3: 	//selecting and moving a perceptoid
+			break;	
+		}
+		pressButton = 0;
+	}, false);
+	canvas.addEventListener("mousemove", function(evt){
+		if (isPressed){
+			//set global var to show drawing radius while moving
+			switch(pressButton){
+			case 1:		//selecting and dragging outer perceptoid radius
+				break;
+			case 2:		//selecting and dragging inner perceptoid radius
+				break;
+			case 3: 	//selecting and moving a perceptoid
+				break;	
+			}
+		}
+	}, false);
+  </script>
+</body>
+</html>

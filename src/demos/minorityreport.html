@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DD - Your Augmented Reality Pet</title>
+  <link rel="stylesheet" href="assets/demo.css">
+
+  <script src="../js/tracking-min.js"></script>
+  <script src="../js/kdTree.js"></script>
+  <script src="../js/LODTree.js"></script>
+  <script src="../js/perceptoid.js"></script>
+  <script src="../js/linknodes.js"></script>
+  <!--<script src="../../dat-gui/build/dat.gui.min.js"></script>-->
+  <!-- Trig -->
+  <script src="../js/geom.js"></script>
+  <script src="../js/delaunay.js"></script>
+  <script src="../js/rhill-voroni-core.js"></script>
+  <!--<script src="../assets/stats.min.js"></script>-->
+  <script src="../assets/color_camera_gui.js"></script>
+
+  <style>
+  body {
+    background-color: black;
+    color: #fff;
+  }
+
+  video, canvas {
+    position: absolute;
+  }
+  </style>
+</head>
+<body>
+  <div class="demo-title">
+    <p><b>Minority Report</b> - YES!!!</p>
+  </div>
+
+  <div class="demo-frame">
+    <div class="demo-container">
+      <div id="rectangle"></div>
+      <video id="video" style="opacity: 1;" width="400" height="300" preload autoplay muted loop controls>
+        <source src="assets/rickmorty.mp4" type="video/mp4">
+        <!--<source src="assets/minions.ogv" type="video/ogg">-->
+	    <!--<source src="assets/cactus.webm" type="video/mp4">-->
+      </video>
+      <canvas id="canvas" width="400" height="300"></canvas>
+    </div>
+  </div>
+  <script>
+	//Perceptoid Matrix - perceptoid.js
+	var useCamera = false;
+	var videoWidth = 400;
+	var videoHeight = 300;
+
+	//var useControlPoints = true;
+	var space = {x: videoWidth, y: videoHeight};
+	/*var perceptoids = [
+		Perceptoid({
+			space: space, 
+			x: 200, 
+			y: 150, 
+			r: 60, 
+			ir: 50,
+			n: 30, 
+			ease: 0.001, 
+			drawRadius: true,
+			scan: true,
+			scanRenderStyle: 'line',
+			scanOpacity: 0.8,
+			mode: {
+				points: {
+					movement: 0,
+					orientation: 0,
+					alignment: 0
+				},
+				peers: {
+					movement: 0,
+					orientation: 1,
+					alignment: 1
+				}
+			}
+		})
+	];*/
+	var cluster1 = PerceptoidCluster({
+		type: 'circle',
+		x: 100,
+		y: 150,
+		size: 5,
+		radius: 40,
+		proto: function(){
+			return {
+				space: space,
+				r: 50,
+				ir: 45,
+				n: 20,
+				nmin: 1,
+				ease: 0.001,
+				drawRadius: true,
+				drawLinks: true,
+				mode: {
+					points: {
+						movement: 0,
+						orientation: 0,
+						alignment: 0
+					},
+					peers: {
+						movement: 0,
+						orientation: 1,
+						alignment: 1
+					}
+				}
+			}
+		}
+	});
+	console.log(cluster1);
+	var perceptoids = cluster1.getPerceptoidArray();
+	perceptoids[0].ease = 0.01;
+	perceptoids[1].ease = 0.004;
+	perceptoids[2].ease = 0.003;
+	perceptoids[2].ease = 0.002;
+	perceptoids[3].ease = 0.006;
+	var used = [];
+	for (var i = 0; i < perceptoids.length; i++){
+		for (var c = 0; c < perceptoids.length; c++){
+			if (i != c && typeof used[i + c] === 'undefined'){
+				perceptoids[i].addPeer(perceptoids[c],{
+					distMin: 0.6,
+					ease: 0.0001
+				});
+				used[i + c] = true;
+			}
+		}
+	}
+  </script>
+  <script src="../js/lightning.js"></script>
+  <script>
+  	trackStats = false;
+  	setPointRange(400,600);
+  	showPoints = true;
+  	toggleVideo();
+  </script>
+</body>
+</html>
