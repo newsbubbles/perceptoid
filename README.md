@@ -41,10 +41,10 @@ The original perceptoid algorithm along with some modified algorithms it require
 - *perceptoid.js* - The raw Perceptoid library.  This contains the Perceptoid function which initializes a perceptoid into the data space and handles the frame-step behaviour processing of the perceptoid.
 - *lightning.js* - The data stream filter and FAST point processing system.  This includes the main tracking.js event code for partitioning the data using kdTree and sending the point tree to the currently loaded perceptoids for local neighborhood analysis.
 - *Other used libraries* (found in /src/js)
-..- *delaunay.js* - Triangulation and complex 2d polygon genreation from local neighborhood points. 
-..- *[kdTree.js](https://github.com/ubilabs/kd-tree-javascript)* v 1.01 - Data point space partitioning 
-..- *LODTree.js* - Quick angular hash lookup system.  Divides Pi by any number of radial slices
-..- *linknodes.js* - A simple linked list object which allows some simple manipulation of a linked list including push/pop style methods.
+⋅⋅- *delaunay.js* - Triangulation and complex 2d polygon genreation from local neighborhood points. 
+⋅⋅- *[kdTree.js](https://github.com/ubilabs/kd-tree-javascript)* v 1.01 - Data point space partitioning 
+⋅⋅- *LODTree.js* - Quick angular hash lookup system.  Divides Pi by any number of radial slices
+⋅⋅- *linknodes.js* - A simple linked list object which allows some simple manipulation of a linked list including push/pop style methods.
 
 ## Usage
 
