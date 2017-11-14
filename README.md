@@ -18,6 +18,13 @@ The difference in the approach for Perceptoids is that instead of training a sys
 
 So a perceptoid is a virtual object that you can physically interact with using your head, hands, an object or even aspects of a scene.
 
+### Perceptoid Anatomy
+
+In common clustering algorithms, a Cluster is a set of points which are close together in some space.  Most 2D or visual point clustering algorithms use the concept of a [Centroid](https://en.wikipedia.org/wiki/Centroid) to find the center of each cluster of edge points in an image.  In other words, given the cluster points, find the center, mark it as a cluster position for each frame.  
+
+The perceptoid algorithm takes the opposite approach: given the center of a cluster, find the points.  So each perceptoid has a pre-existing Centroid object.  On each frame, given the centroid of each perceptoid, find it's local neighborhood, then expose data about that local neighborhood, how it transforms over time, and vectors representing the cluster's velocity in multiple dimensions (currently x, y, red, green, blue, hue, saturation, luminosity, dot product).  This proves to be faster than the classical approach since no computation is necessary for finding Centroids.  The trade-off is that there is a set number of clusters that can be tracked in any image.  Below is a diagram of the parts of a perceptoid.
+
+
 ### Applications
 
 Here are a few possible applications of this technology at it's baseline.
