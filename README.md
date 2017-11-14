@@ -52,6 +52,13 @@ To use perceptoids in your project
 
 Initialize a simple Perceptoid
 ```javascript
+addPerceptoid(new Perceptoid({
+  x: 50,    /* x starting position (50 pixels) */
+  y: 50,    /* y starting position (50 pixels) */
+  r: 80,    /* outer radius of local neighborhood (80 pixels) */
+  ir: 70,   /* inner radius of local neighborhood (70 pixels) */
+  n: 40     /* neighborhood size maximum (40 neighbors) */
+}));
 ```
 
 Initialize a *fixed position* Perceptoid (stay mode)
